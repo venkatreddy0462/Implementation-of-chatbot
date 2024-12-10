@@ -6,31 +6,14 @@ import nltk # type: ignore
 import ssl
 import streamlit as st
 import random
-import google.generativeai as genai 
+
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 
 ssl._create_default_https_context = ssl._create_unverified_context
 nltk.data.path.append(os.path.abspath("nltk_data"))
 nltk.download('punkt')
-genai.configure(api_key="AIzaSyDAckJOelAP5oX6JrKWyJmj0YAoJHlruIM") 
-
-#def Ai(user_input):
-#    try:
-#        model = genai.GenerativeModel("gemini-1.5-flash")  # Assuming correct model identifier
-#        response = model.generate_content(user_input)  # Updated method to generate content
-#        response1 = extract_text(response) + "\n\n Satisfied with the response ?   Yes or No"  # Or use the correct property from response object
-#        return response1.replace("*","")
-#    except Exception as e:
-#        return f"Error: {e}"
-    
-#def extract_text(response):
-#    try:
-#        # Navigate through the nested structure to extract the text field
-#        text = response.candidates[0].content.parts[0].text
-#        return text
-#    except Exception as e:
-#       return f"Error extracting text: {e}"
+ 
 
 
 # Load intents from the JSON file
@@ -93,11 +76,9 @@ def main():
         if st.session_state.input_received:
             user_input_str = str(user_input)
 
-#            response = Ai(user_input_str)
+
             response2 = chatbot(user_input_str)
-                    
-        # Display chatbot response
-#            """st.text_area("GenAI Chatbot:", value=response, height=120, max_chars=None, key=f"GenAi_chatbot_response_{counter}")"""
+
             st.text_area("Conventional Chatbot:", value=response2, height=120, max_chars=None, key=f"Conventional_chatbot_response_{counter}")
 
         # Log interaction in CSV
@@ -115,7 +96,7 @@ def main():
             rows = list(csv_reader)
             for row in rows[:0:-1]:
                 st.text(f"User: {row[0]}")
-#                """st.text(f"GenAi Chatbot: {row[1]}")"""
+
                 st.text(f"Chatbot: {row[1]}")
     # Conversation History Menu
     elif choice == "Conversation History":
@@ -127,7 +108,7 @@ def main():
             next(csv_reader)  # Skip the header row
             for row in csv_reader:
                 st.text(f"User: {row[0]}")
-#                """st.text(f"GenAi Chatbot: {row[1]}")"""
+
                 st.text(f"Conventional Chatbot: {row[1]}")
                 st.text(f"Timestamp: {row[2]}")
                 st.markdown("---")
